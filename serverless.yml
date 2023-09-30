@@ -1,0 +1,23 @@
+service: github-repo-protection-service
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: ap-southeast-2
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - secretsmanager:GetSecretValue
+      Resource:
+        - arn:aws:secretsmanager:ap-southeast-2:875035699099:secret:GithubToken-MgaXHy
+
+plugins:
+  - serverless-offline  # Add the serverless-offline plugin
+
+functions:
+  protectRepo:
+    handler: src/github-webhook-handler.protectRepo
+    events:
+      - http:
+          path: github-webhook
+          method: POST

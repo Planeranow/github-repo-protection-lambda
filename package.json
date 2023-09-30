@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "start-local": "serverless offline start",
+    "deploy-dev": "serverless deploy"
+  },
+  "devDependencies": {
+    "serverless-offline": "^13.1.1"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1467.0",
+    "axios": "^1.5.1"
+  }
+}
