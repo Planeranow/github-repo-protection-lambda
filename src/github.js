@@ -42,7 +42,7 @@ async function createIssue(
     throw ("Error creating issue:", error);
   }
 }
-// Function to apply branch protection
+
 async function applyBranchProtection(
   protectionSettings,
   owner,
