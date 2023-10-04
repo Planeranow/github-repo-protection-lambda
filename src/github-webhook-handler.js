@@ -2,10 +2,6 @@
 const { applyBranchProtection, createIssue } = require("./github");
 const AWS = require("aws-sdk");
 
-// import {
-//     SecretsManagerClient,
-//     GetSecretValueCommand,
-//   } from "@aws-sdk/client-secrets-manager";
 
 module.exports.protectRepo = async (event) => {
   if (event.path === "/github-webhook" && event.httpMethod === "POST") {
@@ -24,18 +20,20 @@ module.exports.protectRepo = async (event) => {
         .promise();
       const githubToken = JSON.parse(githubTokenResponse.SecretString);
 
-      // TODO: Add more protection
       const protectionSettings = {
         required_status_checks: {
           strict: true,
-          contexts: ["ci-checks"], // Replace with your CI/CD check name(s)
+          contexts: ["ci-checks"],
         },
         enforce_admins: true,
         required_pull_request_reviews: {
           dismiss_stale_reviews: true,
           require_code_owner_reviews: true,
+          required_approving_review_count: 2,
+          require_last_push_approval: true,
         },
-        restrictions: null, // You can specify restrictions if needed
+        restrictions: null,
+        allow_force_pushes: false,
       };
 
       await applyBranchProtection(
